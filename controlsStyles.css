@@ -17,9 +17,9 @@
     margin: 10px 5px;
     font-size: 16px;
     font-family: VT323;
-    color: #008000;
-    background-color: #000d00;
-    border: 1px solid #008000;
+    color: #e80f11;
+    background-color: #00000a;
+    border: 1px solid #e80f11;
     border-radius: 5px;
     padding: 5px 10px;
     width: 200px;
@@ -28,15 +28,15 @@
 .controlsUnit:hover
 {
     cursor: pointer;
-    background-color: #008000;
-    color: #000d00;
+    background-color: #e80f11;
+    color: #00000a;
 }
 
 .controlsUnitPending
 {
     cursor: pointer;
-    background-color: #008000;
-    color: #000d00;
+    background-color: #e80f11;
+    color: #00000a;
     font-weight: bold;
 }
 
@@ -45,9 +45,9 @@
     margin: 10px 5px;
     font-size: 16px;
     font-family: VT323;
-    color: #008000;
-    background-color: #000d00;
-    border: 1px solid #008000;
+    color: #e80f11;
+    background-color: #00000a;
+    border: 1px solid #e80f11;
     border-radius: 5px;
     padding: 5px 10px;
     width: 300px;
@@ -92,9 +92,9 @@
     margin: 10px 5px;
     font-size: 16px;
     font-family: VT323;
-    color: #008000;
-    background-color: #000d00;
-    border: 1px solid #008000;
+    color: #e80f11;
+    background-color: #00000a;
+    border: 1px solid #e80f11;
     border-radius: 5px;
     padding: 5px 10px;
     width: 560px;
