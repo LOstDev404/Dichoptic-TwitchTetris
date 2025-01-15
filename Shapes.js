@@ -22,7 +22,7 @@ var SHAPES = {
 	    { x: -1, y: -1 },
 	    { x: 0, y: -1 }
 	],
-	image: 'media/redblock.png',
+	image: 'media/blueblock.png',
 	kickType: 'standard'
     },
     j: {
@@ -48,7 +48,7 @@ var SHAPES = {
 	    { x: 1, y: 0 },
 	    { x: 1, y: -1 }
 	],
-	image: 'media/redblock.png',
+	image: 'media/blueblock.png',
 	kickType: 'standard'
     },
     s: {
@@ -74,7 +74,7 @@ var SHAPES = {
 	    { x: 0, y: 0 },
 	    { x: 1, y: 0 }
 	],
-	image: 'media/redblock.png',
+	image: 'media/blueblock.png',
 	kickType: 'standard'
     },
     t: {
