@@ -21,7 +21,7 @@ function Block(config) {
     config.y = this.boY + BLOCK_WIDTH * this.blockY;
 
     if (config.preview) {
-	config.image = 'media/blueblock.png';
+	config.image = 'media/emptyblock.png';
     } else if (config.empty) {
 	config.image = 'media/emptyblock.png';
     }else {
@@ -46,7 +46,7 @@ Block.invalidateAll = function() {
 
 Block.prototype.setColor = function(shape, preview) {
     if (preview) {
-	this.setImage('media/greyblock.png');
+	this.setImage('media/emptyblock.png');
     } else {
 	this.setImage(SHAPES[shape].image);
     }
