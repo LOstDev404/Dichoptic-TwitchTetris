@@ -93,9 +93,11 @@ Game.prototype.applyGravity = function (dTime) {
 * @param {[Char]} queue - the queue of pieces
 */
 Game.prototype.updatePreviews = function(queue) {
-    var i;
+    var i, pieceColor;
     for (i = 0; i < queue.length; i += 1) {
-	this.previewGroups[i].setShape(queue[i]);
+	// Generate a consistent color for each preview piece
+	pieceColor = SHAPES[queue[i]].getImage();
+	this.previewGroups[i].setShape(queue[i], pieceColor);
     }
 };
 
@@ -134,23 +136,35 @@ Game.prototype.swap = function() {
     // if there is a block waiting
     if (this.swapGroup) {
 	newShape = this.swapGroup.getShape();
+	// Get consistent color for the swapped piece
+	var newPieceColor = SHAPES[newShape].getImage();
+	var oldPieceColor = SHAPES[oldShape].getImage();
+	
 	for (i = 0; i < 4; i += 1) {
 	    newBlocks.push(new Block({blockX:-10, blockY:-10, shape: newShape, occupiedPositions: this.occupiedPositions}));
+	    // Set consistent color for the new control group
+	    newBlocks[i].pieceColor = newPieceColor;
+	    newBlocks[i].setImage(newPieceColor);
 	    this.blocks.push(newBlocks[i]);
 	}
+	
+	// Store colors for shadow system
+	this.currentPieceColor = newPieceColor;
+	this.currentShadowColor = getOppositeColor(newPieceColor);
 	
 	this.controlGroup = new ControlGroup(newBlocks, newShape, function(x, y){
 	    return thisObject.isLegalPosition(x, y);
 	});
 
-	this.swapGroup.setShape(oldShape);
+	this.swapGroup.setShape(oldShape, oldPieceColor);
 
 	return;
     }
 
     // if there is no block waiting
+    var oldPieceColor = SHAPES[oldShape].getImage();
     this.swapGroup = new PreviewGroup(-100, 60);
-    this.swapGroup.setShape(oldShape);
+    this.swapGroup.setShape(oldShape, oldPieceColor);
     this.newBlock(true);    
 
 };

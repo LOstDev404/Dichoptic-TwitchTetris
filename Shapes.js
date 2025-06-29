@@ -1,3 +1,13 @@
+// Function to randomly assign red or blue color
+function getRandomColor() {
+    return Math.random() < 0.5 ? 'media/redblock.png' : 'media/blueblock.png';
+}
+
+// Function to get opposite color for shadows
+function getOppositeColor(color) {
+    return color === 'media/redblock.png' ? 'media/blueblock.png' : 'media/redblock.png';
+}
+
 var SHAPES = {
     i: {
 	spin: 'corner',
@@ -9,7 +19,7 @@ var SHAPES = {
 	    { x: 0, y: -1 },
 	    { x: 1, y: -1 }
 	],
-	image: 'media/redblock.png',
+	getImage: function() { return getRandomColor(); },
 	kickType: 'i_block'
     },
     o: {
@@ -22,7 +32,7 @@ var SHAPES = {
 	    { x: -1, y: -1 },
 	    { x: 0, y: -1 }
 	],
-	image: 'media/blueblock.png',
+	getImage: function() { return getRandomColor(); },
 	kickType: 'standard'
     },
     j: {
@@ -35,7 +45,7 @@ var SHAPES = {
 	    { x: 0, y: 0 },
 	    { x: 1, y: 0 }
 	],
-	image: 'media/redblock.png',
+	getImage: function() { return getRandomColor(); },
 	kickType: 'standard'
     },
     l: {
@@ -48,7 +58,7 @@ var SHAPES = {
 	    { x: 1, y: 0 },
 	    { x: 1, y: -1 }
 	],
-	image: 'media/blueblock.png',
+	getImage: function() { return getRandomColor(); },
 	kickType: 'standard'
     },
     s: {
@@ -61,7 +71,7 @@ var SHAPES = {
 	    { x: 0, y: -1 },
 	    { x: 1, y: -1 }
 	],
-	image: 'media/redblock.png',
+	getImage: function() { return getRandomColor(); },
 	kickType: 'standard'
     },
     z: {
@@ -74,7 +84,7 @@ var SHAPES = {
 	    { x: 0, y: 0 },
 	    { x: 1, y: 0 }
 	],
-	image: 'media/blueblock.png',
+	getImage: function() { return getRandomColor(); },
 	kickType: 'standard'
     },
     t: {
@@ -87,7 +97,7 @@ var SHAPES = {
 	    { x: 0, y: -1 },
 	    { x: 1, y: 0 }
 	],
-	image: 'media/redblock.png',
+	getImage: function() { return getRandomColor(); },
 	kickType: 'standard'
     }
     

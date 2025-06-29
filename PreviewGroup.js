@@ -20,17 +20,19 @@ function PreviewGroup(baseX, baseY) {
 /**
 * Sets the shape and color of the blocks
 * @param {Char} shape - the letter of the new shape
-* @param {Boolean} preview - true if it should have preview colors
+* @param {String} pieceColor - the consistent color for this piece (optional)
 */
-PreviewGroup.prototype.setShape = function(shape) {
+PreviewGroup.prototype.setShape = function(shape, pieceColor) {
     var shapeConfig = SHAPES[shape],
-    i;
+    i,
+    colorToUse = pieceColor || SHAPES[shape].getImage();
 
     this.shape = shape;
     
     for (i = 0; i < 4; i += 1) {
 	this.blocks[i].setPosition(shapeConfig.pos[i].x, shapeConfig.pos[i].y);
-	this.blocks[i].setColor(shape, false);
+	this.blocks[i].pieceColor = colorToUse;
+	this.blocks[i].setImage(colorToUse);
     }
 };
 

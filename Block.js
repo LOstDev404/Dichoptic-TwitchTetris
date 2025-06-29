@@ -24,8 +24,13 @@ function Block(config) {
 	config.image = 'media/emptyblock.png';
     } else if (config.empty) {
 	config.image = 'media/emptyblock.png';
-    }else {
-	config.image = SHAPES[config.shape].image;
+    } else if (config.shadow) {
+	// For shadow blocks, use the opposite color of the piece
+	config.image = config.shadowColor || 'media/emptyblock.png';
+    } else {
+	// Store the randomly assigned color for this piece
+	this.pieceColor = SHAPES[config.shape].getImage();
+	config.image = this.pieceColor;
     }
 
     parent = new jaws.Sprite(config);
@@ -44,13 +49,20 @@ Block.invalidateAll = function() {
     Block.allInvalidated = true;
 };
 
-Block.prototype.setColor = function(shape, preview) {
+Block.prototype.setColor = function(shape, preview, shadow, shadowColor) {
     if (preview) {
 	this.setImage('media/emptyblock.png');
+    } else if (shadow) {
+	this.setImage(shadowColor || 'media/emptyblock.png');
     } else {
-	this.setImage(SHAPES[shape].image);
+	this.pieceColor = SHAPES[shape].getImage();
+	this.setImage(this.pieceColor);
     }
     Block.invalidSpaces[this.blockX + "," + this.blockY] = true;
+};
+
+Block.prototype.getPieceColor = function() {
+    return this.pieceColor;
 };
 
 Block.prototype.moveBlock = function(dx, dy) {

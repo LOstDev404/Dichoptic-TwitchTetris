@@ -13,6 +13,12 @@ function Game(inputMapping, autoRepeat, threshold) {
 	this.previewBlocks.push(new Block({blockX: -10, blockY: -10, preview: true}));
     }
 
+    // make the shadow blocks
+    this.shadowBlocks = [];
+    for (i = 0; i < 4; i += 1) {
+	this.shadowBlocks.push(new Block({blockX: -10, blockY: -10, shadow: true}));
+    }
+
     this.scoreOutput = new TtyBlock("scoreDiv", 3);
     this.linesOutput = new TtyBlock("linesDiv", 3);
     this.levelOutput = new TtyBlock("levelDiv", 3);
@@ -110,12 +116,23 @@ Game.prototype.newBlock = function (calledBySwap) {
 
     this.dropPeriod = this.scoreTracker.getLevelPeriod();
 
+    // Get a consistent color for this piece
+    var pieceColor = SHAPES[shape].getImage();
+    var shadowColor = getOppositeColor(pieceColor);
+
     // create some new blocks
     for (i = 0; i < 4; i += 1) {
 	curBlock = new Block({blockX: -10, blockY: -10, shape: shape, occupiedPositions: this.occupiedPositions});
+	// Override the random color with our consistent piece color
+	curBlock.pieceColor = pieceColor;
+	curBlock.setImage(pieceColor);
 	newBlocks.push(curBlock);
 	this.blocks.push(curBlock);
     }
+
+    // Store the piece and shadow colors for later use
+    this.currentPieceColor = pieceColor;
+    this.currentShadowColor = shadowColor;
 
     this.controlGroup = new ControlGroup(newBlocks, shape, function(x, y){
 	return thisObject.isLegalPosition(x, y);
@@ -131,6 +148,9 @@ Game.prototype.newBlock = function (calledBySwap) {
     }
 
     this.updatePreviews(this.randBag.getQueue());
+    
+    // Update shadows for the new piece
+    this.updateShadows();
 };
 
 /**
@@ -236,6 +256,9 @@ Game.prototype.update = function(time) {
 	    this.previewBlocks[i].setPosition(-10, -10);
 	}
     }
+    
+    // update the shadow blocks
+    this.updateShadows();
 };
 
 /**
@@ -264,10 +287,41 @@ Game.prototype.draw = function(dTime) {
 	this.previewGroups[i].draw();
     }
 
+    // draw the shadow blocks
+    for (i = 0; i < 4; i += 1) {
+	this.shadowBlocks[i].drawIfInvalid();
+    }
+
     for (i = 0; i < this.blocks.length; i += 1) {
 	this.blocks[i].drawIfInvalid();
     }
 
+};
+
+/**
+* Updates the shadow block positions to show where the current piece will land
+*/
+Game.prototype.updateShadows = function() {
+    var i, fallData, shadowPos;
+    
+    if (!this.controlGroup) {
+	// Hide shadows if no active piece
+	for (i = 0; i < 4; i += 1) {
+	    this.shadowBlocks[i].setPosition(-10, -10);
+	}
+	return;
+    }
+    
+    // Get where the piece would land
+    fallData = this.controlGroup.getFallPositions();
+    
+    // Update shadow block positions and colors
+    for (i = 0; i < 4; i += 1) {
+	shadowPos = fallData.positions[i];
+	this.shadowBlocks[i].setPosition(shadowPos.x, shadowPos.y);
+	this.shadowBlocks[i].setImage(this.currentShadowColor);
+	Block.invalidSpaces[shadowPos.x + "," + shadowPos.y] = true;
+    }
 };
 
 /**
