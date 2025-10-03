@@ -101,7 +101,7 @@ function Game(inputMapping, autoRepeat, threshold) {
 	}}
     };
 
-    this.inputMapping = inputMapping;
+this.inputMapping = inputMapping;
 }
 
 /**
@@ -296,6 +296,68 @@ Game.prototype.draw = function(dTime) {
 	this.blocks[i].drawIfInvalid();
     }
 
+};
+
+/**
+* Toggle color swap mode and refresh all relevant sprites
+*/
+Game.prototype.toggleColorSwap = function() {
+    // Flip global mapping flag
+    if (typeof toggleGlobalColorSwap === 'function') {
+        toggleGlobalColorSwap();
+    }
+
+    var i, j;
+
+    // Flip colors of all active/placed blocks (includes current control group)
+    for (i = 0; i < this.blocks.length; i += 1) {
+        var blk = this.blocks[i];
+        if (blk.pieceColor === 'media/redblock.png') {
+            blk.pieceColor = 'media/blueblock.png';
+            blk.setImage('media/blueblock.png');
+        } else if (blk.pieceColor === 'media/blueblock.png') {
+            blk.pieceColor = 'media/redblock.png';
+            blk.setImage('media/redblock.png');
+        }
+    }
+
+    // Flip colors of preview queue groups
+    for (i = 0; i < this.previewGroups.length; i += 1) {
+        for (j = 0; j < 4; j += 1) {
+            var pblk = this.previewGroups[i].blocks[j];
+            if (pblk.pieceColor === 'media/redblock.png') {
+                pblk.pieceColor = 'media/blueblock.png';
+                pblk.setImage('media/blueblock.png');
+            } else if (pblk.pieceColor === 'media/blueblock.png') {
+                pblk.pieceColor = 'media/redblock.png';
+                pblk.setImage('media/redblock.png');
+            }
+        }
+    }
+
+    // Flip colors of saved piece preview if exists
+    if (this.swapGroup) {
+        for (j = 0; j < 4; j += 1) {
+            var sblk = this.swapGroup.blocks[j];
+            if (sblk.pieceColor === 'media/redblock.png') {
+                sblk.pieceColor = 'media/blueblock.png';
+                sblk.setImage('media/blueblock.png');
+            } else if (sblk.pieceColor === 'media/blueblock.png') {
+                sblk.pieceColor = 'media/redblock.png';
+                sblk.setImage('media/redblock.png');
+            }
+        }
+    }
+
+    // Flip shadow colors
+    if (this.currentShadowColor === 'media/redblock.png') {
+        this.currentShadowColor = 'media/blueblock.png';
+    } else if (this.currentShadowColor === 'media/blueblock.png') {
+        this.currentShadowColor = 'media/redblock.png';
+    }
+
+    // Update shadows for current piece
+    this.updateShadows();
 };
 
 /**

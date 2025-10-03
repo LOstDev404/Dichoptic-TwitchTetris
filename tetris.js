@@ -191,6 +191,13 @@ function Tetris(controller) {
     this.mouseClicked = function(x, y) {
 	mouseClick = {x: x, y: y};
     };
+
+    // Expose a global toggle function for the UI button
+    window.toggleColorSwap = function() {
+        if (game && typeof game.toggleColorSwap === 'function') {
+            game.toggleColorSwap();
+        }
+    };
 }
 
 window.onload = function () {
